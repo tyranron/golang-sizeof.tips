@@ -1,0 +1,17 @@
+html,
+body {
+    overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+body {
+    padding-top: 70px;
+}
+footer {
+    padding: 30px 0;
+}
+
+#editor {
+    width: 600px;
+    height: 700px;
+    left: 50%;
+    margin-left: -300px;
+}

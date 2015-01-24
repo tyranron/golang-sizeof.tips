@@ -33,6 +33,11 @@ func Run() (exitCode int) {
 		return 1
 	}
 
+	if err = prepareTemplates(); err != nil {
+		log.StdErr("could not parse html templates, reason -> %s", err.Error())
+		return 1
+	}
+
 	bindHttpHandlers()
 	canExit, httpErr := make(chan sig, 1), make(chan error, 1)
 	go func() {

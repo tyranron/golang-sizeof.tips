@@ -3,8 +3,6 @@ package app
 import (
 	"net/http"
 	"strings"
-
-	"github.com/gophergala/golang-sizeof.tips/internal/bindata"
 )
 
 func bindHttpHandlers() {
@@ -56,6 +54,5 @@ func useCustom404(handler http.Handler) http.Handler {
 }
 
 func pageHandler(w http.ResponseWriter, _ *http.Request) {
-	data, _ := bindata.Asset("templs/index.tmpl")
-	w.Write(data)
+	templates["index"].ExecuteTemplate(w, "base", nil) // todo: check error
 }
