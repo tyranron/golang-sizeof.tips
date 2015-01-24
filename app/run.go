@@ -1,11 +1,12 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"runtime"
-	"sync"
 	"syscall"
+	"time"
 
 	"github.com/gophergala/golang-sizeof.tips/internal/log"
 
@@ -24,24 +25,48 @@ func Run() (exitCode int) {
 		log.StdErr("could not start daemon, reason -> %s", err.Error())
 		return 1
 	}
-	waiter := &sync.WaitGroup{}
+
+	var err error
+	appLog, err = log.NewApplicationLogger()
+	if err != nil {
+		log.StdErr("could not create access log, reason -> %s", err.Error())
+		return 1
+	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
 		w.Write([]byte("Hello, Gala!"))
 	})
-	waiter.Add(1)
+	canExit, httpErr := make(chan sig, 1), make(chan error, 1)
 	go func() {
-		defer waiter.Done()
-		http.ListenAndServe(":7777", nil)
+		defer close(canExit)
+		if err := http.ListenAndServe(HttpPort, nil); err != nil {
+			httpErr <- fmt.Errorf(
+				"creating HTTP server on port '%s' FAILED, reason -> %s",
+				HttpPort, err.Error(),
+			)
+		}
 	}()
+	select {
+	case err = <-httpErr:
+		appLog.Error(err.Error())
+		log.StdErr(err.Error())
+		return 1
+	case <-time.After(300 * time.Millisecond):
+	}
 
 	notifyParentProcess()
 
-	waiter.Wait()
+	<-canExit
 	return
 }
 
 // Notifies parent process that everything is OK.
 func notifyParentProcess() {
-	syscall.Kill(os.Getppid(), syscall.SIGUSR1) // todo: error checking
+	if err := syscall.Kill(os.Getppid(), syscall.SIGUSR1); err != nil {
+		appLog.Error(
+			"Notifying parent process FAILED, reason -> %s", err.Error(),
+		)
+	} else {
+		appLog.Info("Notifying parent process SUCCEED")
+	}
 }
