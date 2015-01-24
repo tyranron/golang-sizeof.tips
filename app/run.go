@@ -33,9 +33,7 @@ func Run() (exitCode int) {
 		return 1
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
-		w.Write([]byte("Hello, Gala!"))
-	})
+	bindHttpHandlers()
 	canExit, httpErr := make(chan sig, 1), make(chan error, 1)
 	go func() {
 		defer close(canExit)
