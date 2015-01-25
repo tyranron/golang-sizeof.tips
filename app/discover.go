@@ -22,19 +22,20 @@ func discoverHandler(w http.ResponseWriter, r *http.Request) {
 		code = exampleCode
 	}
 
+	toRender := &struct {
+		Code   string
+		Result *viewData
+		Error  string
+	}{Code: code}
+
 	result, err := parser.ParseCode(code)
-	errStr := ""
 	if err != nil {
-		errStr = err.Error()
+		toRender.Error = err.Error()
+	} else {
+		toRender.Result = createViewData(result)
 	}
 
-	templates["index"].ExecuteTemplate(
-		w, "base", &struct {
-			Code   string
-			Result *viewData
-			Error  string
-		}{code, createViewData(result), errStr},
-	) // todo: check error
+	templates["index"].ExecuteTemplate(w, "base", toRender)
 }
 
 func parseCodeRequestParam(param string) string {

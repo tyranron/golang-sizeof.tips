@@ -6,6 +6,7 @@ import (
 	. "go/ast"
 	. "go/parser"
 	"go/token"
+	"reflect"
 	"strconv"
 	"unsafe"
 )
@@ -96,6 +97,13 @@ func parseType(n Node) (*TypeInfo, error) {
 			Name:    "function",
 			IsFixed: true,
 		}, nil
+	case *FuncType:
+		return &TypeInfo{
+			Sizeof:  FixedSizes["func"],
+			Alignof: min(FixedSizes["func"], BasicSizes["uintptr"]),
+			Name:    "function",
+			IsFixed: true,
+		}, nil
 	case *ArrayType:
 		if node.Len == nil {
 			return &TypeInfo{
@@ -138,6 +146,9 @@ func parseType(n Node) (*TypeInfo, error) {
 			if err != nil {
 				return nil, err
 			}
+			if len(field.Names) > 0 {
+				typ.Name = field.Names[0].Name + " " + typ.Name
+			}
 			if typ.Alignof > strct.Alignof {
 				strct.Alignof = typ.Alignof
 			}
@@ -167,7 +178,8 @@ func parseType(n Node) (*TypeInfo, error) {
 		strct.Sizeof = num * strct.Alignof
 		return strct, nil
 	default:
-		return nil, errInvalidType
+		//return nil, errInvalidType
+		return nil, fmt.Errorf("%v", reflect.TypeOf(n))
 	}
 }
 

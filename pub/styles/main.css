@@ -1,16 +1,125 @@
 html,
 body {
     overflow-x: hidden; /* Prevent scroll on narrow devices */
+    min-width: 100%;
+}
+html {
+    height: 100%;
 }
 body {
+    position: relative;
     padding-top: 70px;
+    padding-bottom: 60px;
+    min-height: 100%;
 }
+
+body > .container {
+    padding-bottom: 50px;
+}
+
 footer {
-    padding: 30px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    box-sizing: border-box;
+    border-top: 1px solid #f5f5f5
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+h2.closing {
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 #editor {
-    width: 600px;
-    height: 700px;
-    left: 30px;
+    max-width: 600px;
+    width: 100%;
+    min-height: 600px;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+.gopher {
+    position: relative;
+    padding-left: 40px;
+}
+
+.gopher:before {
+    content: '';
+    position: absolute;
+    width: 106px;
+    height: 70px;
+    top: -70px;
+    right: 8%;
+    background: url("/images/gopher.png") 0 0 no-repeat;
+    z-index: 300;
+}
+
+.results {
+    padding: 66px 20px 66px 40px;
+}
+
+.results .table-wrap {
+    max-height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.results table td {
+    vertical-align: middle;
+    background-color: #f5f5f5;
+    padding: 2px 6px;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+.results table td, .results table th {
+    text-align: center;
+    white-space: nowrap;
+}
+.results table th {
+    padding: 6px;
+}
+.results table tr > td:first-child {
+    padding-right: 15px;
+}
+.results table tr > td:nth-child(3) {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.results table tr > td:nth-child(3):empty {
+    display:none;
+}
+
+.results-inner {
+    max-width: 620px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.chnk {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 3px;
+    box-sizing: border-box;
+    background-color: #5cb85c;
+    border: 1px solid #4cae4c;
+}
+.chnk.pad {
+    background-color: darkred;
+    border-color: #760005;
+}
+.chnk.empty {
+    opacity: 0;
+}
+
+
+.navbar-fixed-top .btn {
+    float: left;
+    margin: 7px 20px;
 }

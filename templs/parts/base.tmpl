@@ -23,14 +23,17 @@
 <body>
   <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
-      <div class="navbar-header">
-        <span class="navbar-brand">Golang sizeof tips</span>
-      </div>
+      {{ template "top" . }}
     </div>
   </nav>
   <div class="container">
     {{ template "content" . }}
   </div>
+  <footer>
+    <div class="container">
+      &copy; 2015 <a href="https://github.com/" target="_blank">Tyranron</a>
+    </div>
+  </footer>
 </body>
 </html>
 {{ end }}

@@ -18,6 +18,7 @@ func bindHttpHandlers() {
 				runtime.Stack(buf, false)
 				reason := fmt.Sprintf("%v: %s", r, buf)
 				appLog.Critical("Runtime failure, reason -> %s", reason)
+				write500(w)
 			}
 		}()
 		switch {
@@ -30,6 +31,10 @@ func bindHttpHandlers() {
 		}
 		discoverHandler(w, r)
 	})
+}
+
+func write500(w http.ResponseWriter) {
+	w.Write([]byte("gala internal error!"))
 }
 
 func write404(w http.ResponseWriter) {

@@ -16,6 +16,11 @@ func prepareTemplates() error {
 	if err != nil {
 		return err
 	}
+	var fns = template.FuncMap{
+		"unvischunk": func(x int, len int) bool {
+			return x > 2 && x < (len-1)
+		},
+	}
 	for _, name := range []string{
 		"index",
 	} {
@@ -23,7 +28,7 @@ func prepareTemplates() error {
 		if err != nil {
 			return err
 		}
-		templates[name], err = template.New(name).Parse(
+		templates[name], err = template.New(name).Funcs(fns).Parse(
 			string(baseData) + string(assetData),
 		)
 		if err != nil {
