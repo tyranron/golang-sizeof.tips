@@ -34,11 +34,11 @@ func bindHttpHandlers() {
 }
 
 func write500(w http.ResponseWriter) {
-	w.Write([]byte("gala internal error!"))
+	templates["500"].ExecuteTemplate(w, "base", nil)
 }
 
 func write404(w http.ResponseWriter) {
-	w.Write([]byte("gala not found!"))
+	templates["404"].ExecuteTemplate(w, "base", nil)
 }
 
 type hijack404 struct {

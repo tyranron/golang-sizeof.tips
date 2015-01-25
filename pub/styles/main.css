@@ -21,24 +21,34 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
     height: 60px;
     box-sizing: border-box;
-    border-top: 1px solid #f5f5f5
+    border-top: 1px solid #f5f5f5;
+    background-color: #f5f5f5;
 }
+footer p {
+    margin: 18px 0;
+}
+footer p:first-child {
+    float: right;
+}
+footer p:first-child a {
+    color: inherit;
+}
+
 
 h2 {
     margin-bottom: 10px;
 }
 h2.closing {
-    margin-top: 10px;
+    margin-top: 0;
     margin-bottom: 20px;
 }
 
 #editor {
     max-width: 600px;
     width: 100%;
-    min-height: 600px;
+    min-height: 700px;
     margin: 0 auto;
     border-radius: 4px;
 }
@@ -46,6 +56,11 @@ h2.closing {
 .gopher {
     position: relative;
     padding-left: 40px;
+}
+
+.gopher small {
+    display: block;
+    text-align: center
 }
 
 .gopher:before {
@@ -60,11 +75,11 @@ h2.closing {
 }
 
 .results {
-    padding: 66px 20px 66px 40px;
+    padding: 63px 20px 66px 40px;
 }
 
 .results .table-wrap {
-    max-height: 450px;
+    max-height: 418px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -86,6 +101,9 @@ h2.closing {
 }
 .results table tr > td:first-child {
     padding-right: 15px;
+}
+.results table tr > td:nth-child(2) {
+    line-height: 1;
 }
 .results table tr > td:nth-child(3) {
     padding-left: 16px;
@@ -111,15 +129,35 @@ h2.closing {
     border: 1px solid #4cae4c;
 }
 .chnk.pad {
-    background-color: darkred;
-    border-color: #760005;
+    background-color: #ce4844;
+    border-color: #a34642;
 }
 .chnk.empty {
     opacity: 0;
 }
 
-
 .navbar-fixed-top .btn {
-    float: left;
+    float: right;
     margin: 7px 20px;
+}
+
+.bs-callout {
+    padding: 20px;
+    margin: 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.bs-callout-danger {
+    border-left-color: #ce4844;
+}
+.bs-callout-danger h4 {
+    color: #ce4844;
+}
+.bs-callout-info {
+    border-left-color: #1b809e;
+}
+.bs-callout-info h4 {
+    color: #1b809e;
 }

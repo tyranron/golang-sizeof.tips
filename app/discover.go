@@ -8,7 +8,7 @@ import (
 	"github.com/gophergala/golang-sizeof.tips/internal/parser"
 )
 
-const exampleCode = `
+const exampleCode = `// Here is samplecode provided
 struct {
 	a string
 	b bool

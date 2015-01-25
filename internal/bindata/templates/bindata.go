@@ -23,6 +23,42 @@ type asset struct {
 	info  os.FileInfo
 }
 
+// templs_404_tmpl reads file data from disk. It returns an error on failure.
+func templs_404_tmpl() (*asset, error) {
+	path := "/Users/d/Kairen/personal/projects/go/src/github.com/gophergala/golang-sizeof.tips/templs/404.tmpl"
+	name := "templs/404.tmpl"
+	bytes, err := bindata_read(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templs_500_tmpl reads file data from disk. It returns an error on failure.
+func templs_500_tmpl() (*asset, error) {
+	path := "/Users/d/Kairen/personal/projects/go/src/github.com/gophergala/golang-sizeof.tips/templs/500.tmpl"
+	name := "templs/500.tmpl"
+	bytes, err := bindata_read(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
 // templs_index_tmpl reads file data from disk. It returns an error on failure.
 func templs_index_tmpl() (*asset, error) {
 	path := "/Users/d/Kairen/personal/projects/go/src/github.com/gophergala/golang-sizeof.tips/templs/index.tmpl"
@@ -100,6 +136,8 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
+	"templs/404.tmpl":        templs_404_tmpl,
+	"templs/500.tmpl":        templs_500_tmpl,
 	"templs/index.tmpl":      templs_index_tmpl,
 	"templs/parts/base.tmpl": templs_parts_base_tmpl,
 }
@@ -146,6 +184,8 @@ type _bintree_t struct {
 
 var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
 	"templs": &_bintree_t{nil, map[string]*_bintree_t{
+		"404.tmpl":   &_bintree_t{templs_404_tmpl, map[string]*_bintree_t{}},
+		"500.tmpl":   &_bintree_t{templs_500_tmpl, map[string]*_bintree_t{}},
 		"index.tmpl": &_bintree_t{templs_index_tmpl, map[string]*_bintree_t{}},
 		"parts": &_bintree_t{nil, map[string]*_bintree_t{
 			"base.tmpl": &_bintree_t{templs_parts_base_tmpl, map[string]*_bintree_t{}},

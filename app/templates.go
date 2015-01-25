@@ -22,7 +22,7 @@ func prepareTemplates() error {
 		},
 	}
 	for _, name := range []string{
-		"index",
+		"index", "404", "500",
 	} {
 		assetData, err := bin.Asset(templatesDir + name + ".tmpl")
 		if err != nil {
