@@ -1,6 +1,7 @@
 package app
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -16,6 +17,11 @@ func init() {
 	daemon.AppName = "golang-sizeof.tips HTTP server"
 	daemon.PidFile = "logs/sizeof.pid"
 
+	httpPort := ""
+	flag.StringVar(
+		&httpPort, "http", DefaultHttpPort, "port to listen http reauests on",
+	)
+
 	// Overwriting default daemonigo "start" action.
 	daemon.SetAction("start", func() {
 		switch isRunning, _, err := daemon.Status(); {
@@ -26,7 +32,7 @@ func init() {
 				"%s is already started and running now\n", daemon.AppName,
 			)
 		default:
-			daemonStart()
+			daemonStart(httpPort)
 		}
 	})
 
@@ -46,12 +52,12 @@ func init() {
 				fmt.Println("OK")
 			}
 		}
-		daemonStart()
+		daemonStart(httpPort)
 	})
 }
 
 // Helper function for custom daemon starting.
-func daemonStart() {
+func daemonStart(port string) {
 	fmt.Printf("Starting %s...", daemon.AppName)
 	sig := make(chan os.Signal)
 	signal.Notify(sig, syscall.SIGUSR1)
@@ -59,6 +65,9 @@ func daemonStart() {
 	if err != nil {
 		printFailed(err)
 		return
+	}
+	if port != "" {
+		cmd.Env = append(cmd.Env, "_GO_HTTP="+port)
 	}
 	stdErr, err := cmd.StderrPipe()
 	if err != nil {

@@ -38,14 +38,19 @@ func Run() (exitCode int) {
 		return 1
 	}
 
+	httpPort := os.Getenv("_GO_HTTP")
+	if httpPort == "" {
+		httpPort = DefaultHttpPort
+	}
+
 	bindHttpHandlers()
 	canExit, httpErr := make(chan sig, 1), make(chan error, 1)
 	go func() {
 		defer close(canExit)
-		if err := http.ListenAndServe(HttpPort, nil); err != nil {
+		if err := http.ListenAndServe(httpPort, nil); err != nil {
 			httpErr <- fmt.Errorf(
 				"creating HTTP server on port '%s' FAILED, reason -> %s",
-				HttpPort, err.Error(),
+				httpPort, err.Error(),
 			)
 		}
 	}()
