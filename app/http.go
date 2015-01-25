@@ -1,7 +1,6 @@
 package app
 
 import (
-	"encoding/base64"
 	"fmt"
 	"net/http"
 	"runtime"
@@ -29,7 +28,7 @@ func bindHttpHandlers() {
 			write404(w)
 			return
 		}
-		pageHandler(w, r)
+		discoverHandler(w, r)
 	})
 }
 
@@ -62,34 +61,4 @@ func useCustom404(handler http.Handler) http.Handler {
 		}()
 		handler.ServeHTTP(hijack, r)
 	})
-}
-
-func pageHandler(w http.ResponseWriter, r *http.Request) {
-	code := parseCodeRequestParam(r.FormValue("t"))
-	if code == "" {
-		code = exampleCode
-	}
-
-	result, err := discoverCode(code)
-	errStr := ""
-	if err != nil {
-		errStr = err.Error()
-	}
-
-	templates["index"].ExecuteTemplate(
-		w, "base", &struct {
-			Code   string
-			Result string
-			Error  string
-		}{code, result, errStr},
-	) // todo: check error
-}
-
-func parseCodeRequestParam(param string) string {
-	param = strings.TrimSpace(param)
-	bytes, err := base64.URLEncoding.DecodeString(param)
-	if err != nil {
-		return ""
-	}
-	return string(bytes)
 }
