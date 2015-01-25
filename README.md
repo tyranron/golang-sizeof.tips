@@ -2,6 +2,7 @@ Golang sizeof tips
 ------------------
 
 **Web tool for interactive playing with Golang struct sizes.**
+
 Try online version [here](http://golang-sizeof.tips/).
 
 ## Aim
