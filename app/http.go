@@ -5,11 +5,13 @@ import (
 	"net/http"
 	"runtime"
 	"strings"
+
+	"github.com/gophergala/golang-sizeof.tips/internal/bindata/static"
 )
 
 func bindHttpHandlers() {
 	fileServer := http.NewServeMux()
-	fileServer.Handle("/", useCustom404(http.FileServer(http.Dir("pub/"))))
+	fileServer.Handle("/", useCustom404(http.FileServer(static.AssetFS())))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
