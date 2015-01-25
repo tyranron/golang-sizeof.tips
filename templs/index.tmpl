@@ -2,7 +2,20 @@
 <h1>Hello, Gala!</h1>
 
 <div id="editor">{{ .Code }}</div>
-<div><pre>{{ .Result }}</pre></div>
+<div>
+{{ with .Result }}
+Sizeof: {{ .Sizeof }}
+Alignof: {{ .Alignof }}
+<br/>
+{{ if .Details }}{{ range $row := .Details }}
+  {{ $row.Name }}
+  {{ range $ch := $row.Chunks }}
+  {{ range $filled := $ch.Cells }}{{ if $filled }}{{ if $ch.IsPadding }}P{{ else }}Y{{ end }}{{ else }}x{{ end }}{{ end }}
+  <br/>
+  {{ end }}
+{{ end }}{{ end }}
+{{ end }}
+</div>
 <div style="color:red">{{ .Error }}</div>
 
 <button type="button" class="btn btn-success" id="gala_go_go">Go!</button>

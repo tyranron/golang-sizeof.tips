@@ -50,6 +50,33 @@ func TestTypeParsing(t *testing.T) {
 			}
 			c [6]bool
 		}{})),
+		`struct{a uint64; b complex128; c bool; d [6]bool; n struct{a bool}}`: uint64(unsafe.Sizeof(struct {
+			a uint64
+			b complex128
+			c bool
+			d [6]bool
+			n struct{ a bool }
+		}{})),
+		`struct{a uint64; b complex128; c bool; d [6]bool; n struct{a [2]bool}}`: uint64(unsafe.Sizeof(struct {
+			a uint64
+			b complex128
+			c bool
+			d [6]bool
+			n struct{ a [2]bool }
+		}{})),
+		`struct{a uint64; b complex128; c bool; d [6]bool; n struct{a [9]bool}}`: uint64(unsafe.Sizeof(struct {
+			a uint64
+			b complex128
+			c bool
+			d [6]bool
+			n struct{ a [9]bool }
+		}{})),
+		`struct{a uint64; f [2]uint32; ff uint16; dd struct{a [3]int32}}`: uint64(unsafe.Sizeof(struct {
+			a  uint64
+			f  [2]uint32
+			ff uint16
+			dd struct{ a [3]int32 }
+		}{})),
 	}
 	for code, size := range cases {
 		typ, err := ParseCode(code)

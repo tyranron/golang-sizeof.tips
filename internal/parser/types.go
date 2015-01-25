@@ -148,15 +148,18 @@ func parseType(n Node) (*TypeInfo, error) {
 			if typ.Sizeof == 0 {
 				continue
 			}
-			size += typ.Sizeof
-			if size < strct.Alignof {
-				continue
-			}
-			if size-typ.Sizeof > 0 {
+			n := typ.Sizeof / typ.Alignof
+			for i := uint64(0); i < n; i++ {
+				size += typ.Alignof
+				if size <= strct.Alignof {
+					continue
+				}
+				size = typ.Alignof % strct.Alignof
 				num++
+				if typ.Alignof == strct.Alignof {
+					num++
+				}
 			}
-			num += typ.Sizeof / strct.Alignof
-			size = typ.Sizeof % strct.Alignof
 		}
 		if size > 0 {
 			num++
