@@ -1,5 +1,7 @@
 Golang sizeof tips
-------------------
+==================
+
+_Moved from [gophergala/golang-sizeof.tips](https://github.com/gophergala/golang-sizeof.tips)_
 
 **Web tool for interactive playing with Golang struct sizes.**
 
