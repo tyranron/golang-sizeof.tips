@@ -1,0 +1,3 @@
+package main
+
+//go:generate go-bindata -o internal/bindata/templates/bindata.go -pkg templates templs/...

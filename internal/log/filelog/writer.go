@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	log "code.google.com/p/log4go"
+	log "github.com/alecthomas/log4go"
 )
 
 // Day format for comparing files changed time during daily log rotation.

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gophergala/golang-sizeof.tips/internal/parser"
+	"github.com/tyranron/golang-sizeof.tips/internal/parser"
 )
 
 const exampleCode = `// Sample code
@@ -13,10 +13,22 @@ struct {
 	a string
 	b bool
 	c string
+	d string
 }
 `
 
 func discoverHandler(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		toRender := &struct {
+			Code   string
+			Result *viewData
+			Error  string
+		}{Code: exampleCode}
+		toRender.Error = err.Error()
+		templates["index"].ExecuteTemplate(w, "base", toRender)
+		return
+	}
+
 	code := parseCodeRequestParam(r.FormValue("t"))
 	if code == "" {
 		code = exampleCode
